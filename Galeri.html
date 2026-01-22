@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peta Web Interaktif - Gunung Jayawijaya (Carstensz Pyramid)</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- ArcGIS Embeddable Components -->
+  <script type="module" src="https://js.arcgis.com/4.34/embeddable-components/"></script>
+  <style>
+    /* ===== VARIABLES & RESET ===== */
+    :root {
+      --primary: #0a2463;
+      --accent: #f1b82d;
+      --dark-bg: #00122d;
+      --light-text: #ffffff;
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --border-color: rgba(255, 255, 255, 0.18);
+      --gradient-bg: linear-gradient(135deg, #0e2b66 0%, #0a1f46 100%);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: var(--dark-bg);
+      color: var(--light-text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ===== HEADER & NAVIGATION ===== */
+    header {
+      background: var(--gradient-bg);
+      padding: 18px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      border-bottom: 3px solid var(--accent);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo-img {
+      height: 48px;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+      transition: transform 0.3s ease;
+    }
+
+    .logo-img:hover {
+      transform: scale(1.05);
+    }
+
+    .brand-text {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    nav {
+      display: flex;
+      gap: 28px;
+    }
+
+    .nav-link {
+      color: #d0d0d0;
+      font-weight: 500;
+      padding: 8px 0;
+      position: relative;
+      transition: all 0.3s ease;
+      font-size: 15px;
+    }
+
+    .nav-link:hover {
+      color: #ffffff;
+    }
+
+    .nav-link.active {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .nav-link.active::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 4px;
+      box-shadow: 0 0 10px rgba(241, 184, 45, 0.7);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      background: linear-gradient(rgba(0, 18, 45, 0.85), rgba(0, 18, 45, 0.75)), 
+                  url('backgroundjayawijaya.jpg') center/cover no-repeat;
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      position: relative;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 18, 45, 0.5));
+    }
+
+    .hero-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+
+    .hero-title {
+      font-size: 42px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      color: var(--accent);
+      text-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: #e4e9ff;
+      max-width: 700px;
+      margin: 0 auto 30px;
+      line-height: 1.6;
+    }
+
+    /* ===== SECTION STYLES ===== */
+    .section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+
+    .section-title {
+      font-size: 36px;
+      color: var(--accent);
+      margin-bottom: 15px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-title::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 80px;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 4px;
+    }
+
+    .section-subtitle {
+      color: #c9d6ff;
+      font-size: 18px;
+      max-width: 700px;
+      margin-bottom: 40px;
+    }
+
+    /* ===== MAP CONTAINER ===== */
+    .map-container {
+      background: var(--card-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+      margin-top: 40px;
+      position: relative;
+    }
+
+    arcgis-embedded-map {
+      width: 100% !important;
+      height: 600px !important;
+      display: block !important;
+    }
+
+    /* ===== MAP CONTROLS ===== */
+    .map-controls {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    .control-btn {
+      background: rgba(0, 18, 45, 0.85);
+      border: 1px solid var(--border-color);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .control-btn:hover {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    /* ===== MAP INFO PANEL ===== */
+    .map-info-panel {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(0, 18, 45, 0.85);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+      max-width: 300px;
+      z-index: 10;
+      backdrop-filter: blur(10px);
+    }
+
+    .map-info-panel h3 {
+      color: var(--accent);
+      margin-bottom: 10px;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .map-info-panel p {
+      color: #c9d6ff;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* ===== MAP FEATURES ===== */
+    .map-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      margin-top: 40px;
+    }
+
+    .feature-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 25px;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+      box-shadow: 0 10px 25px rgba(241, 184, 45, 0.2);
+    }
+
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, rgba(241, 184, 45, 0.2), rgba(241, 184, 45, 0.1));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: var(--accent);
+    }
+
+    .feature-card h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: var(--accent);
+    }
+
+    .feature-card p {
+      color: #c9d6ff;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--gradient-bg);
+      padding: 50px 0 30px;
+      margin-top: 60px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .footer-text {
+      color: #c9d6ff;
+      margin-bottom: 20px;
+      font-size: 16px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .copyright {
+      color: #a0b3ff;
+      font-size: 14px;
+      margin-top: 30px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 30px;
+    }
+
+    /* ===== RESPONSIVE DESIGN ===== */
+    @media (max-width: 1024px) {
+      .hero-title {
+        font-size: 36px;
+      }
+      
+      .section {
+        padding: 60px 24px;
+      }
+      
+      .section-title {
+        font-size: 32px;
+      }
+      
+      arcgis-embedded-map {
+        height: 500px !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      nav {
+        position: fixed;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background: #0a1f46;
+        flex-direction: column;
+        padding: 20px;
+        gap: 15px;
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+      }
+      
+      nav.active {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+      }
+      
+      .hero-title {
+        font-size: 32px;
+      }
+      
+      .hero-subtitle {
+        font-size: 16px;
+      }
+      
+      .section-title {
+        font-size: 28px;
+      }
+      
+      arcgis-embedded-map {
+        height: 400px !important;
+      }
+      
+      .map-info-panel {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 100%;
+        max-width: none;
+        margin-bottom: 20px;
+      }
+      
+      .map-controls {
+        position: relative;
+        top: 0;
+        right: 0;
+        flex-direction: row;
+        justify-content: center;
+        margin-top: 20px;
+      }
+      
+      .map-features {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 28px;
+      }
+      
+      .section-title {
+        font-size: 24px;
+      }
+      
+      arcgis-embedded-map {
+        height: 300px !important;
+      }
+      
+      .brand-text {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="nav-container">
+      <div class="brand">
+        <img src="logogunung.png" alt="Logo Gunung Jayawijaya" class="logo-img">
+        <div class="brand-text">GUNUNG JAYAWIJAYA (CARSTENSZ PYRAMID)</div>
+      </div>
+      
+      <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <i class="fas fa-bars"></i>
+      </button>
+      
+      <nav id="mainMenu">
+        <a href="BERANDA.html" class="nav-link">BERANDA</a>
+        <a href="Tentang Gunung.html" class="nav-link">TENTANG GUNUNG</a>
+        <a href="PETA3D.html" class="nav-link">PETA 3D</a>
+        <a href="Galeri.html" class="nav-link">PETA 2D</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">Peta 2D Interaktif Pegunungan Jayawijaya</h1>
+      <p class="hero-subtitle">Jelajahi data geospasial dan informasi wilayah Pegunungan Jayawijaya melalui peta web interaktif dengan teknologi ArcGIS.</p>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <section class="section">
+    <h2 class="section-title">Peta Web Interaktif Gunung Jayawijaya</h2>
+    <p class="section-subtitle">Eksplorasi data geospasial dan informasi wilayah Pegunungan Jayawijaya melalui peta web dengan kontrol penuh</p>
+    
+    <div class="map-container">
+      <!-- Map Info Panel -->
+      <div class="map-info-panel">
+        <h3><i class="fas fa-info-circle"></i> Informasi Peta</h3>
+        <p>Peta ini menampilkan data geospasial Gunung Jayawijaya dengan layer informasi lengkap termasuk topografi, kontur elevasi, dan batas wilayah.</p>
+      </div>
+      
+      <!-- Map Controls -->
+      <div class="map-controls">
+        <button class="control-btn" id="fullscreenBtn" title="Mode Layar Penuh">
+          <i class="fas fa-expand"></i>
+        </button>
+        <button class="control-btn" id="resetViewBtn" title="Reset Peta">
+          <i class="fas fa-home"></i>
+        </button>
+        <button class="control-btn" id="legendToggle" title="Toggle Legenda">
+          <i class="fas fa-layer-group"></i>
+        </button>
+      </div>
+      
+      <!-- ArcGIS Embedded Map -->
+      <arcgis-embedded-map 
+        style="height:600px;width:100%;" 
+        item-id="b36824290db7441ba98d42e900a32a27" 
+        theme="dark" 
+        bookmarks-enabled 
+        heading-enabled 
+        legend-enabled 
+        information-enabled 
+        center="137.095577846791,-4.103992877849741"
+        scale="1155581.108577" 
+        portal-url="https://stpn.maps.arcgis.com">
+      </arcgis-embedded-map>
+    </div>
+    
+    <!-- MAP FEATURES -->
+    <div class="map-features">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-layer-group"></i>
+        </div>
+        <h3>Multi-Layer Data</h3>
+        <p>Peta ini dilengkapi dengan berbagai layer informasi termasuk topografi, kontur, penggunaan lahan, dan data lingkungan.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-search"></i>
+        </div>
+        <h3>Navigasi Lengkap</h3>
+        <p>Zoom, pan, dan rotate untuk mengeksplorasi setiap detail Pegunungan Jayawijaya dengan kontrol yang intuitif.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-info-circle"></i>
+        </div>
+        <h3>Informasi Detail</h3>
+        <p>Klik pada area tertentu untuk mendapatkan informasi detail tentang elevasi, karakteristik tanah, dan data lainnya.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-download"></i>
+        </div>
+        <h3>Ekspor Data</h3>
+        <p>Mampu mengekspor tampilan peta dan data untuk keperluan penelitian dan dokumentasi.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <p class="footer-text">Portal informasi terlengkap tentang Pegunungan Jayawijaya (Carstensz Pyramid) - keajaiban alam Indonesia dengan puncak bersalju di khatulistiwa.</p>
+      <div class="copyright">
+        &copy; <span id="currentYear"></span> Informasi Pegunungan Jayawijaya (Carstensz Pyramid). Semua hak dilindungi.<br>
+        Data diperbarui November 2023 | Sumber: Badan Informasi Geospasial
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle - DIUBAH KE mainMenu
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mainMenu = document.getElementById('mainMenu'); // Diubah dari mainNav ke mainMenu
+    
+    if (mobileMenuBtn && mainMenu) {
+      mobileMenuBtn.addEventListener('click', () => {
+        mainMenu.classList.toggle('active');
+        mobileMenuBtn.innerHTML = mainMenu.classList.contains('active') 
+          ? '<i class="fas fa-times"></i>' 
+          : '<i class="fas fa-bars"></i>';
+      });
+      
+      // Close menu when clicking on a link
+      const navLinks = document.querySelectorAll('.nav-link');
+      navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          mainMenu.classList.remove('active');
+          mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+        });
+      });
+    }
+
+    // Fullscreen functionality for the map container
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const mapContainer = document.querySelector('.map-container');
+    
+    if (fullscreenBtn && mapContainer) {
+      fullscreenBtn.addEventListener('click', function() {
+        if (!document.fullscreenElement) {
+          if (mapContainer.requestFullscreen) {
+            mapContainer.requestFullscreen();
+          } else if (mapContainer.webkitRequestFullscreen) {
+            mapContainer.webkitRequestFullscreen();
+          } else if (mapContainer.msRequestFullscreen) {
+            mapContainer.msRequestFullscreen();
+          }
+          this.innerHTML = '<i class="fas fa-compress"></i>';
+          this.title = 'Keluar Layar Penuh';
+        } else {
+          if (document.exitFullscreen) {
+            document.exitFullscreen();
+          } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+          } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+          }
+          this.innerHTML = '<i class="fas fa-expand"></i>';
+          this.title = 'Mode Layar Penuh';
+        }
+      });
+    }
+
+    // Reset view button
+    const resetViewBtn = document.getElementById('resetViewBtn');
+    if (resetViewBtn) {
+      resetViewBtn.addEventListener('click', function() {
+        // In a real implementation, this would reset the ArcGIS map view
+        // For now, we'll just show a notification
+        showNotification('Peta telah direset ke tampilan awal');
+      });
+    }
+
+    // Legend toggle
+    const legendToggle = document.getElementById('legendToggle');
+    if (legendToggle) {
+      let legendVisible = true;
+      
+      legendToggle.addEventListener('click', function() {
+        legendVisible = !legendVisible;
+        this.innerHTML = legendVisible ? 
+          '<i class="fas fa-layer-group"></i>' : 
+          '<i class="fas fa-eye-slash"></i>';
+        this.title = legendVisible ? 'Sembunyikan Legenda' : 'Tampilkan Legenda';
+        
+        showNotification(legendVisible ? 
+          'Legenda ditampilkan' : 
+          'Legenda disembunyikan');
+      });
+    }
+
+    // Helper function to show notifications
+    function showNotification(message) {
+      // Create notification element
+      const notification = document.createElement('div');
+      notification.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 18, 45, 0.9);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        border: 1px solid var(--accent);
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+        animation: slideUp 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      `;
+      notification.innerHTML = `<i class="fas fa-info-circle"></i> ${message}`;
+      
+      document.body.appendChild(notification);
+      
+      // Remove notification after 3 seconds
+      setTimeout(() => {
+        notification.style.animation = 'slideDown 0.3s ease';
+        setTimeout(() => {
+          if (notification.parentNode) {
+            document.body.removeChild(notification);
+          }
+        }, 300);
+      }, 3000);
+    }
+
+    // Add CSS animations for notifications
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideUp {
+        from { transform: translateX(-50%) translateY(100%); opacity: 0; }
+        to { transform: translateX(-50%) translateY(0); opacity: 1; }
+      }
+      @keyframes slideDown {
+        from { transform: translateX(-50%) translateY(0); opacity: 1; }
+        to { transform: translateX(-50%) translateY(100%); opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Update year in footer
+    const currentYearSpan = document.getElementById('currentYear');
+    if (currentYearSpan) {
+      currentYearSpan.textContent = new Date().getFullYear();
+    } else {
+      // Fallback jika element tidak ditemukan
+      const copyrightElements = document.querySelectorAll('.copyright');
+      copyrightElements.forEach(element => {
+        element.innerHTML = element.innerHTML.replace('2023', new Date().getFullYear());
+      });
+    }
+
+    // Handle fullscreen change
+    function handleFullscreenChange() {
+      const isFullscreen = document.fullscreenElement || 
+                          document.webkitFullscreenElement || 
+                          document.msFullscreenElement;
+      
+      const arcgisMap = document.querySelector('arcgis-embedded-map');
+      if (arcgisMap) {
+        if (isFullscreen) {
+          arcgisMap.style.height = 'calc(100vh - 40px)';
+        } else {
+          arcgisMap.style.height = '600px';
+        }
+      }
+    }
+    
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+    // Simulate loading ArcGIS map
+    setTimeout(() => {
+      showNotification('Peta web interaktif siap digunakan!');
+    }, 1500);
+
+    // Ensure Font Awesome is loaded
+    if (!document.querySelector('link[href*="font-awesome"]')) {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+      document.head.appendChild(link);
+    }
+
+    console.log('Peta web interaktif Gunung Jayawijaya siap digunakan!');
+  </script>
+</body>
+</html>

@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beranda – Gunung Jaya (Carstensz Pyramid)</title>
+  
+  <style>
+    /* ===== VARIABLES & RESET ===== */
+    :root {
+      --primary: #0a2463;
+      --accent: #f1b82d;
+      --dark-bg: #00122d;
+      --light-text: #ffffff;
+      --medium-blue: #0e2b66;
+      --dark-blue: #0a1f46;
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --border-color: rgba(255, 255, 255, 0.18);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: var(--dark-bg);
+      color: var(--light-text);
+      line-height: 1.6;
+    }
+
+    /* ===== HEADER & NAVIGATION ===== */
+    header {
+      background: linear-gradient(to right, var(--medium-blue), var(--dark-blue));
+      padding: 14px 0;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-img {
+      height: 42px;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    }
+
+    .brand-text {
+      font-size: 16px;
+      font-weight: 700;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    nav {
+      display: flex;
+      gap: 24px;
+    }
+
+    .nav-link {
+      color: #d0d0d0;
+      text-decoration: none;
+      font-size: 15px;
+      position: relative;
+      padding: 5px 0;
+      transition: all 0.25s ease;
+      font-weight: 500;
+    }
+
+    .nav-link:hover {
+      color: #ffffff;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+    }
+
+    .nav-link.active {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .nav-link.active::after {
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 4px;
+      box-shadow: 0 0 8px rgba(241, 184, 45, 0.7);
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      background: url('backgroundjayawijaya.jpg') center/cover no-repeat;
+      height: 80vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 18, 45, 0.5));
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 650px;
+    }
+
+    .hero-title {
+      font-size: 48px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 15px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: #e4e9ff;
+      margin-bottom: 25px;
+      max-width: 90%;
+    }
+
+    .hero-btn {
+      display: inline-block;
+      background: var(--accent);
+      color: #000;
+      padding: 14px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(241, 184, 45, 0.3);
+    }
+
+    .hero-btn:hover {
+      background: #ffcc33;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(241, 184, 45, 0.5);
+    }
+
+    /* ===== SECTION STYLES ===== */
+    .section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 70px 20px;
+    }
+
+    .section-title {
+      font-size: 32px;
+      color: var(--accent);
+      margin-bottom: 35px;
+      position: relative;
+      padding-bottom: 12px;
+    }
+
+    .section-title::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 70px;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 4px;
+    }
+
+    /* ===== LAYANAN SECTION ===== */
+    .layanan-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .layanan-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      padding: 30px 25px;
+      border-radius: 14px;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+    }
+
+    .layanan-card:hover {
+      transform: translateY(-8px);
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .layanan-card img {
+      width: 180px;
+      height: 120px;
+      object-fit: cover;
+      margin-bottom: 20px;
+      border-radius: 8px;
+    }
+
+    .layanan-card h3 {
+      margin-bottom: 12px;
+      color: var(--accent);
+      font-size: 20px;
+    }
+
+    .layanan-card p {
+      color: #c9d6ff;
+      font-size: 15px;
+    }
+
+    /* ===== VIDEO SECTION ===== */
+    .video-wrapper {
+      margin-top: 20px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .video-wrapper video {
+      width: 100%;
+      height: 450px;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ===== BERITA SECTION ===== */
+    .berita-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin-top: 20px;
+    }
+
+    .berita-card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .berita-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .berita-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .berita-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .berita-content {
+      padding: 20px;
+    }
+
+    .berita-title {
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .berita-card p {
+      color: #c9d6ff;
+      font-size: 14px;
+    }
+
+    /* ===== MAP CONTAINERS ===== */
+    .map-container {
+      margin: 40px 0;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .cesium-iframe {
+      width: 100%;
+      height: 576px;
+      border: none;
+      display: block;
+    }
+
+    .storymap-iframe {
+      width: 100%;
+      height: 400px;
+      border: none;
+      display: block;
+      margin: 40px 0;
+    }
+
+    .arcgis-iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+      display: block;
+      margin: 40px 0;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--dark-blue);
+      padding: 30px 0;
+      text-align: center;
+      color: #c9d6ff;
+      margin-top: 40px;
+      font-size: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* ===== RESPONSIVE DESIGN ===== */
+    @media (max-width: 1024px) {
+      .hero-title {
+        font-size: 40px;
+      }
+      
+      .cesium-iframe {
+        height: 400px;
+      }
+      
+      .arcgis-iframe {
+        height: 500px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        height: 70vh;
+        padding: 0 20px;
+        text-align: center;
+      }
+      
+      .hero-title {
+        font-size: 32px;
+      }
+      
+      .hero-subtitle {
+        font-size: 16px;
+        max-width: 100%;
+      }
+      
+      .nav-container {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      nav {
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .video-wrapper video {
+        height: 300px;
+      }
+      
+      .cesium-iframe {
+        height: 300px;
+      }
+      
+      .arcgis-iframe {
+        height: 400px;
+      }
+      
+      .section {
+        padding: 50px 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 28px;
+      }
+      
+      .section-title {
+        font-size: 26px;
+      }
+      
+      .layanan-grid, .berita-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .brand-text {
+        font-size: 14px;
+      }
+      
+      .cesium-iframe, .storymap-iframe, .arcgis-iframe {
+        height: 250px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="nav-container">
+      <div class="brand">
+        <img src="logogunung.png" alt="Logo Gunung Jaya Wijaya" class="logo-img">
+        <div class="brand-text">AREA JAYAWIJAYA (CARSTENSZ PYRAMID)</div>
+      </div>
+
+      <nav id="mainMenu">
+        <a href="BERANDA.html" class="nav-link active">BERANDA</a>
+        <a href="Tentang Gunung.html" class="nav-link">TENTANG GUNUNG</a>
+        <a href="PETA3D.html" class="nav-link">PETA 3D</a>
+        <a href="Galeri.html" class="nav-link">PETA 2D</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">Informasi Pegunungan<br>Gunung Jayawijaya (Carstensz Pyramid)</h1>
+      <p class="hero-subtitle">
+        Gunung tertinggi di Indonesia dan Oseania yang terletak di Papua, dengan puncak bersalju abadi di daerah tropis.
+      </p>
+      <a href="Tentang Gunung.html" class="hero-btn">Jelajahi Informasi</a>
+    </div>
+  </section>
+
+  <!-- LAYANAN UTAMA -->
+  <section class="section">
+    <h2 class="section-title">Layanan Utama</h2>
+
+    <div class="layanan-grid">
+      <div class="layanan-card" onclick="location.href='Tentang Gunung.html'">
+        <img src="tentanggunungjaya.jpeg" alt="Tentang Gunung">
+        <h3>Tentang Gunung</h3>
+        <p>Informasi umum mengenai Papua Pegunungan</p>
+      </div>
+
+      <div class="layanan-card" onclick="location.href='PETA3D.html'">
+        <img src="petajaya3d.jpeg" alt="Peta 3D">
+        <h3>Peta 3D</h3>
+        <p>Peta Interaktif Area Pegunungan Papua</p>
+      </div>
+
+      <div class="layanan-card" onclick="location.href='Galeri.html'">
+        <img src="petajaya.jpg" alt="Galeri">
+        <h3>PETA 2D</h3>
+        <p>Dokumentasi kegiatan & pelayanan pertanahan.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BERITA TERKINI -->a
+  <section class="section">
+    <h2 class="section-title">Berita Terkini</h2>
+
+    <div class="berita-grid">
+      <div class="berita-card">
+        <img src="berita1.jpg" alt="Penyerahan Sertifikat PTSL">
+        <div class="berita-content">
+          <div class="berita-title">Kepunahan Salju Abadi di Puncak Jayawijaya</div>
+          <p>Salju abadi di Puncak Cartenz, bagian dari Pegunungan Jayawijaya di Papua, terus mencair dan kondisinya semakin memprihatinkan. Lapisan es yang dulunya luas dan tebal kini menyusut drastis. Menurut Menteri Lingkungan Hidup, salju abadi di puncak gunung tertinggi di Indonesia itu diprediksi akan punah sekitar tahun 2026 karena perubahan iklim dan pemanasan global.
+
+          Saat kunjungan pada tahun 2023, es masih menutupi lebih dari sepertiga puncak, tetapi kini hampir tinggal di relung batu saja. Laporan dari BMKG menunjukkan ketebalan es telah turun dari sekitar 32 meter (2010) menjadi hanya sekitar 4 meter pada 2024.
+
+        Salju abadi di Puncak Cartenz selama ini dikenal sebagai satu-satunya salju tropis di Indonesia, sehingga ancaman kepunahan ini menjadi indikator nyata dampak perubahan iklim yang sedang berlangsung.</p>
+        </div>
+      </div>
+
+      <div class="berita-card">
+        <img src="berita2.jpg" alt="Sosialisasi Reforma Agraria">
+        <div class="berita-content">
+          <div class="berita-title">Kronologi Tragedi Pendakian di Puncak Carstensz</div>
+          <p>Pendaki Lilie Wijayati Poegiono meninggal dunia saat melakukan pendakian di Carstensz Pyramid (Puncak Jaya), Papua, setelah berhasil mencapai puncak dan dalam perjalanan turun menuju basecamp Lembah Kuning. Ia mendaki bersama rombongan yang juga diikuti oleh musisi Fiersa Besari. Dalam perjalanan turun, Lilie mengalami penurunan kondisi fisik yang diduga disebabkan oleh acute mountain sickness (AMS) dan hipotermia, diperparah oleh cuaca ekstrem dan medan yang sangat berat. Upaya penyelamatan sempat dilakukan oleh rekan pendaki dan tim SAR, namun nyawanya tidak dapat tertolong. Tragedi ini kembali menjadi pengingat akan tingginya risiko pendakian di Carstensz Pyramid, yang menuntut kesiapan fisik, mental, serta perencanaan keselamatan yang matang.</p>
+        </div>
+      </div>
+
+      <div class="berita-card">
+        <img src="berita3.jpeg" alt="Layanan Keliling">
+        <div class="berita-content">
+          <div class="berita-title">Dua Pendaki Wanita yang Meninggal di Puncak Carstensz karena hipotermia</div>
+          <p>Dua pendaki wanita Lilie Wijayanti Poegiono dan Elsa Laksono meninggal dunia saat menuruni Puncak Carstensz di Papua Tengah setelah sebelumnya berhasil mencapai puncak pada 28 Februari 2025 bersama rombongan pendakian. Mereka diduga meninggal akibat hipotermia dan acute mountain sickness (AMS) yang terjadi saat kondisi ekstrem di ketinggian sekitar 4.884 meter di atas permukaan laut. Insiden terjadi pada 1 Maret 2025 dini hari ketika keduanya dalam perjalanan turun dari puncak menuju Base Camp Lembah Kuning, dan komunikasi dengan rombongan sempat terganggu karena baterai alat komunikasi habis. Dalam rombongan itu terdapat sekitar 15 orang, termasuk musisi Fiersa Besari, dan sebagian besar berhasil selamat. Evakuasi jenazah Elsa Laksono berhasil dilakukan ke RSUD Timika menggunakan helikopter, sedangkan proses evakuasi jenazah Lilie Wijayanti sempat tertunda karena cuaca buruk. Polisi dan tim SAR menyatakan tragedi ini sebagai pengingat tentang risiko tinggi pendakian gunung dengan cuaca ekstrem dan tantangan fisik di ketinggian.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEO PROFIL -->
+  <section class="section">
+    <h2 class="section-title">Video Profil</h2>
+    <div class="video-wrapper">
+      <video controls poster="video-poster.jpg">
+        <source src="VIDEO PEGUNUNGAN.mp4" type="video/mp4">
+        Browser Anda tidak mendukung pemutaran video.
+      </video>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    &copy; 2026 Sekolah Tinggi Pertanahan Nasional. Semua hak dilindungi.
+  </footer>
+</body>
+</html>

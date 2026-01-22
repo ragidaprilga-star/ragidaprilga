@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peta 3D Interaktif - Gunung Jayawijaya (Carstensz Pyramid)</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* ===== VARIABLES & RESET ===== */
+    :root {
+      --primary: #0a2463;
+      --accent: #f1b82d;
+      --dark-bg: #00122d;
+      --light-text: #ffffff;
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --border-color: rgba(255, 255, 255, 0.18);
+      --gradient-bg: linear-gradient(135deg, #0e2b66 0%, #0a1f46 100%);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: var(--dark-bg);
+      color: var(--light-text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      background: var(--gradient-bg);
+      padding: 18px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      border-bottom: 3px solid var(--accent);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo-img {
+      height: 48px;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+      transition: transform 0.3s ease;
+    }
+
+    .logo-img:hover {
+      transform: scale(1.05);
+    }
+
+    .brand-text {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    nav {
+      display: flex;
+      gap: 28px;
+    }
+
+    .nav-link {
+      color: #d0d0d0;
+      font-weight: 500;
+      padding: 8px 0;
+      position: relative;
+      transition: all 0.3s ease;
+      font-size: 15px;
+    }
+
+    .nav-link:hover {
+      color: #ffffff;
+    }
+
+    .nav-link.active {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .nav-link.active::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 4px;
+      box-shadow: 0 0 10px rgba(241, 184, 45, 0.7);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero-section {
+      padding: 80px 24px 50px;
+      text-align: center;
+      background: linear-gradient(rgba(0, 18, 45, 0.9), rgba(0, 18, 45, 0.7));
+    }
+
+    .hero-title {
+      font-size: 42px;
+      font-weight: 800;
+      margin-bottom: 15px;
+      color: var(--accent);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: #e4e9ff;
+      max-width: 700px;
+      margin: 0 auto 30px;
+    }
+
+    /* ===== MAP CONTAINER SECTION ===== */
+    .map-section {
+      max-width: 1400px;
+      margin: 0 auto 60px;
+      padding: 0 24px;
+    }
+
+    .map-container {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 2px solid var(--border-color);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+      background: var(--card-bg);
+    }
+
+    .map-frame-wrapper {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%; /* 16:9 Aspect Ratio */
+      overflow: hidden;
+    }
+
+    .map-frame {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* ===== MAP CONTROLS ===== */
+    .map-controls {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 25px;
+      flex-wrap: wrap;
+    }
+
+    .control-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .control-btn:hover {
+      background: rgba(241, 184, 45, 0.2);
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(241, 184, 45, 0.2);
+    }
+
+    .control-btn i {
+      color: var(--accent);
+      font-size: 18px;
+    }
+
+    .control-btn.fullscreen {
+      background: var(--accent);
+      color: #000;
+    }
+
+    .control-btn.fullscreen:hover {
+      background: #ffcc33;
+    }
+
+    /* ===== INFO PANELS ===== */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin-top: 40px;
+    }
+
+    .info-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 25px;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    .info-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .info-card h3 {
+      color: var(--accent);
+      margin-bottom: 15px;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .info-card h3 i {
+      font-size: 22px;
+    }
+
+    .info-card p {
+      color: #c9d6ff;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .feature-list {
+      list-style: none;
+      margin-top: 15px;
+    }
+
+    .feature-list li {
+      color: #c9d6ff;
+      margin-bottom: 10px;
+      padding-left: 25px;
+      position: relative;
+    }
+
+    .feature-list li:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    /* ===== CESIUM SPECIFIC STYLES ===== */
+    .cesium-info {
+      background: rgba(0, 18, 45, 0.9);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 30px;
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(10px);
+    }
+
+    .cesium-info h3 {
+      color: var(--accent);
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .tech-stack {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-top: 15px;
+    }
+
+    .tech-badge {
+      background: rgba(241, 184, 45, 0.1);
+      color: var(--accent);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid rgba(241, 184, 45, 0.3);
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--gradient-bg);
+      padding: 50px 0 30px;
+      margin-top: 80px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+    }
+
+    .footer-column h3 {
+      color: var(--accent);
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: #c9d6ff;
+      transition: color 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    .copyright {
+      text-align: center;
+      padding-top: 30px;
+      margin-top: 30px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: #a0b3ff;
+      font-size: 14px;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ===== LOADING STATE ===== */
+    .loading-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 18, 45, 0.9);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      transition: opacity 0.5s ease;
+      border-radius: 16px;
+    }
+
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 3px solid rgba(241, 184, 45, 0.2);
+      border-top: 3px solid var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 15px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      color: var(--accent);
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    /* ===== RESPONSIVE DESIGN ===== */
+    @media (max-width: 992px) {
+      .hero-title {
+        font-size: 36px;
+      }
+      
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      nav {
+        position: fixed;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background: #0a1f46;
+        flex-direction: column;
+        padding: 20px;
+        gap: 15px;
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+      }
+      
+      nav.active {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+      }
+      
+      .hero-title {
+        font-size: 32px;
+      }
+      
+      .hero-subtitle {
+        font-size: 16px;
+      }
+      
+      .map-controls {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .control-btn {
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
+      }
+      
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 28px;
+      }
+      
+      .brand-text {
+        font-size: 16px;
+      }
+      
+      .info-card {
+        padding: 20px;
+      }
+      
+      .map-section {
+        padding: 0 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="nav-container">
+      <div class="brand">
+        <img src="logogunung.png" alt="Logo Gunung Jayawijaya" class="logo-img">
+        <div class="brand-text">GUNUNG JAYAWIJAYA (CARSTENSZ PYRAMID)</div>
+      </div>
+      
+      <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <i class="fas fa-bars"></i>
+      </button>
+      
+      <nav id="mainNav">
+        <a href="BERANDA.html" class="nav-link">BERANDA</a>
+        <a href="Tentang Gunung.html" class="nav-link">TENTANG GUNUNG</a>
+        <a href="PETA3D.html" class="nav-link active">PETA 3D</a>
+        <a href="Galeri.html" class="nav-link">PETA 2D</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero-section">
+    <h1 class="hero-title">Peta 3D Interaktif Pegunungan Jayawijaya</h1>
+    <p class="hero-subtitle">Jelajahi keindahan dan keunikan Pegunungan Jayawijaya (Carstensz Pyramid) dalam tampilan 3D yang imersif dengan teknologi Cesium.</p>
+  </section>
+
+  <!-- MAP SECTION -->
+  <section class="map-section">
+    <div class="map-container">
+      <!-- Loading Overlay -->
+      <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Memuat Peta 3D...</div>
+      </div>
+      
+      <!-- Cesium Embed Frame -->
+      <div class="map-frame-wrapper">
+        <iframe 
+          title="3D PAPUA PEGUNUNGAN" 
+          class="map-frame" 
+          src="https://ion.cesium.com/stories/viewer/?id=7d49a5dc-08f5-4d3d-b607-ac0a5585c6a6" 
+          allow="fullscreen" 
+          allowfullscreen="true" 
+          mozallowfullscreen="true" 
+          webkitallowfullscreen="true"
+          id="cesiumFrame"
+          onload="hideLoader()">
+        </iframe>
+      </div>
+    </div>
+
+    <!-- Map Controls -->
+    <div class="map-controls">
+      <button class="control-btn" id="fullscreenBtn">
+        <i class="fas fa-expand"></i>
+        Mode Layar Penuh
+      </button>
+      <button class="control-btn" onclick="reloadMap()">
+        <i class="fas fa-redo"></i>
+        Muat Ulang Peta
+      </button>
+      <button class="control-btn" onclick="toggleInstructions()">
+        <i class="fas fa-info-circle"></i>
+        Panduan Navigasi
+      </button>
+    </div>
+
+    <!-- Information Cards -->
+    <div class="info-grid">
+      <div class="info-card">
+        <h3><i class="fas fa-mountain"></i> Fitur Peta 3D</h3>
+        <p>Peta 3D ini menampilkan Pegunungan Jayawijaya dengan detail yang menakjubkan:</p>
+        <ul class="feature-list">
+          <li>Model elevasi 3D dengan akurasi tinggi</li>
+          <li>Visualisasi kontur dan topografi</li>
+          <li>Navigasi bebas 360 derajat</li>
+          <li>Tampilan satelit dan peta dasar</li>
+          <li>Zoom in/out dengan kontrol presisi</li>
+        </ul>
+      </div>
+      
+      <div class="info-card">
+        <h3><i class="fas fa-gamepad"></i> Panduan Navigasi</h3>
+        <p>Gunakan kontrol berikut untuk menjelajahi peta 3D:</p>
+        <ul class="feature-list">
+          <li><strong>Klik & tarik:</strong> Putar pandangan</li>
+          <li><strong>Scroll mouse:</strong> Zoom in/out</li>
+          <li><strong>Klik kanan & tarik:</strong> Geser peta</li>
+          <li><strong>Double click:</strong> Zoom ke titik</li>
+          <li><strong>Tombol panah:</strong> Navigasi halus</li>
+        </ul>
+      </div>
+      
+      <div class="info-card">
+        <h3><i class="fas fa-map-marker-alt"></i> Titik Penting</h3>
+        <p>Beberapa lokasi penting di Pegunungan Jayawijaya:</p>
+        <ul class="feature-list">
+          <li>Puncak Jaya (Carstensz Pyramid) - 4,884m</li>
+          <li>Puncak Mandala - 4,760m</li>
+          <li>Puncak Trikora - 4,750m</li>
+          <li>Danau Habbema - 3,225m</li>
+          <li>Lembah Baliem</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Cesium Technology Info -->
+    <div class="cesium-info">
+      <h3>Teknologi Cesium 3D</h3>
+      <p>Peta ini menggunakan teknologi CesiumJS untuk rendering 3D real-time dengan performa tinggi. Cesium adalah platform open-source untuk visualisasi geospasial 3D.</p>
+      <div class="tech-stack">
+        <span class="tech-badge">CesiumJS</span>
+        <span class="tech-badge">WebGL</span>
+        <span class="tech-badge">3D Tiles</span>
+        <span class="tech-badge">Globe Terrain</span>
+        <span class="tech-badge">Satellite Imagery</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3>Gunung Jayawijaya</h3>
+        <p>Informasi lengkap tentang salah satu pegunungan paling menakjubkan di Indonesia, dengan puncak tertinggi di Oseania.</p>
+      </div>
+      
+      <div class="footer-column">
+        <h3>Navigasi Cepat</h3>
+        <ul class="footer-links">
+          <li><a href="BERANDA.html"><i class="fas fa-home"></i> Beranda</a></li>
+          <li><a href="Tentang Gunung.html"><i class="fas fa-mountain"></i> Tentang Gunung</a></li>
+          <li><a href="PETA3D.html"><i class="fas fa-globe-americas"></i> Peta 3D</a></li>
+          <li><a href="Galeri.html"><i class="fas fa-images"></i> Galeri Foto</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h3>Kontak & Info</h3>
+        <ul class="footer-links">
+          <li><i class="fas fa-map-marker-alt"></i> Jayawijaya, Papua, Indonesia</li>
+          <li><i class="fas fa-info-circle"></i> info@jayawijaya.go.id</li>
+          <li><i class="fas fa-external-link-alt"></i> Data: Badan Informasi Geospasial</li>
+          <li><i class="fas fa-satellite"></i> Citra: Cesium Ion & Maxar</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      &copy; 2023 Peta 3D Interaktif Gunung Jayawijaya. Hak cipta dilindungi undang-undang.<br>
+      Data geospasial diperbarui November 2023 | Dibuat dengan CesiumJS
+    </div>
+  </footer>
+
+  <script>
+    // Sembunyikan loading overlay
+    function hideLoader() {
+      setTimeout(() => {
+        const loader = document.getElementById('loadingOverlay');
+        loader.style.opacity = '0';
+        setTimeout(() => {
+          loader.style.display = 'none';
+        }, 500);
+      }, 1500); // Simulasi loading minimal
+    }
+
+    // Fullscreen functionality
+    document.getElementById('fullscreenBtn').addEventListener('click', function() {
+      const iframe = document.getElementById('cesiumFrame');
+      
+      if (iframe.requestFullscreen) {
+        iframe.requestFullscreen();
+      } else if (iframe.webkitRequestFullscreen) {
+        iframe.webkitRequestFullscreen();
+      } else if (iframe.msRequestFullscreen) {
+        iframe.msRequestFullscreen();
+      }
+      
+      this.innerHTML = '<i class="fas fa-compress"></i> Keluar Layar Penuh';
+      this.classList.add('fullscreen');
+      
+      // Ubah kembali saat keluar fullscreen
+      document.addEventListener('fullscreenchange', exitHandler);
+      document.addEventListener('webkitfullscreenchange', exitHandler);
+      document.addEventListener('msfullscreenchange', exitHandler);
+      
+      function exitHandler() {
+        if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+          const btn = document.getElementById('fullscreenBtn');
+          btn.innerHTML = '<i class="fas fa-expand"></i> Mode Layar Penuh';
+          btn.classList.remove('fullscreen');
+        }
+      }
+    });
+
+    // Reload map
+    function reloadMap() {
+      const iframe = document.getElementById('cesiumFrame');
+      const loader = document.getElementById('loadingOverlay');
+      
+      loader.style.display = 'flex';
+      loader.style.opacity = '1';
+      
+      iframe.src = iframe.src;
+      
+      // Sembunyikan loader setelah beberapa saat
+      setTimeout(hideLoader, 2000);
+    }
+
+    // Toggle instructions
+    function toggleInstructions() {
+      const instructions = document.querySelector('.info-card:nth-child(2)');
+      instructions.style.display = instructions.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mainNav = document.getElementById('mainNav');
+    
+    mobileMenuBtn.addEventListener('click', () => {
+      mainNav.classList.toggle('active');
+      mobileMenuBtn.innerHTML = mainNav.classList.contains('active') 
+        ? '<i class="fas fa-times"></i>' 
+        : '<i class="fas fa-bars"></i>';
+    });
+
+    // Close menu when clicking on a link
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mainNav.classList.remove('active');
+        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+      });
+    });
+
+    // Auto-hide loader after 5 seconds (fallback)
+    setTimeout(hideLoader, 5000);
+
+    // Update year in footer
+    document.querySelector('.copyright').innerHTML = document.querySelector('.copyright').innerHTML.replace('2023', new Date().getFullYear());
+
+    console.log('Peta 3D Gunung Jayawijaya siap digunakan!');
+  </script>
+</body>
+</html>

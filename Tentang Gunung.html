@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Informasi Area Pegunungan Jayawijaya - Carstensz Pyramid</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* ===== VARIABLES & RESET ===== */
+    :root {
+      --primary: #0a2463;
+      --accent: #f1b82d;
+      --dark-bg: #00122d;
+      --light-text: #ffffff;
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --border-color: rgba(255, 255, 255, 0.18);
+      --section-spacing: 80px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: var(--dark-bg);
+      color: var(--light-text);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      background: linear-gradient(to right, #0e2b66, #0a1f46);
+      padding: 16px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo-img {
+      height: 50px;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    }
+
+    .logo-text {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--accent);
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    nav {
+      display: flex;
+      gap: 30px;
+    }
+
+    .nav-link {
+      color: #d0d0d0;
+      font-weight: 500;
+      padding: 8px 0;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: #ffffff;
+    }
+
+    .nav-link.active {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .nav-link.active::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 4px;
+      box-shadow: 0 0 10px rgba(241, 184, 45, 0.7);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      background: linear-gradient(rgba(0, 18, 45, 0.9), rgba(0, 18, 45, 0.7)), url('backgroundjayawijaya.jpg');
+      background-size: cover;
+      background-position: center;
+      height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 24px;
+    }
+
+    .hero-content {
+      max-width: 900px;
+    }
+
+    .hero-title {
+      font-size: 48px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      text-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
+      color: var(--accent);
+    }
+
+    .hero-subtitle {
+      font-size: 20px;
+      color: #e4e9ff;
+      max-width: 800px;
+      margin: 0 auto 30px;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: #c9d6ff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ===== SECTION COMMON ===== */
+    .section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--section-spacing) 24px;
+    }
+
+    .section-title {
+      font-size: 36px;
+      color: var(--accent);
+      margin-bottom: 50px;
+      text-align: center;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: "";
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 4px;
+    }
+
+    /* ===== OVERVIEW SECTION ===== */
+    .overview-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .overview-text {
+      font-size: 17px;
+      color: #c9d6ff;
+    }
+
+    .overview-text p {
+      margin-bottom: 20px;
+    }
+
+    .overview-image {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    }
+
+    .overview-image img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .overview-image:hover img {
+      transform: scale(1.05);
+    }
+
+    /* ===== FEATURES SECTION ===== */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .feature-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+      border-color: var(--accent);
+    }
+
+    .feature-icon {
+      font-size: 40px;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .feature-title {
+      font-size: 22px;
+      margin-bottom: 15px;
+      color: var(--accent);
+    }
+
+    /* ===== GEOGRAPHY SECTION ===== */
+    .geography-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .geography-info {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 30px;
+      border: 1px solid var(--border-color);
+    }
+
+    .info-list {
+      list-style: none;
+    }
+
+    .info-list li {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .info-list li:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .info-label {
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .info-value {
+      text-align: right;
+      color: #c9d6ff;
+    }
+
+    /* ===== FLORA FAUNA SECTION ===== */
+    .flora-fauna-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .species-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+    }
+
+    .species-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .species-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .species-content {
+      padding: 25px;
+    }
+
+    .species-title {
+      font-size: 20px;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .species-desc {
+      color: #c9d6ff;
+      font-size: 15px;
+    }
+
+    /* ===== CLIMATE SECTION ===== */
+    .climate-content {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 50px;
+      align-items: start;
+    }
+
+    .climate-text {
+      font-size: 17px;
+      color: #c9d6ff;
+    }
+
+    .climate-text p {
+      margin-bottom: 20px;
+    }
+
+    .climate-data {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 30px;
+      border: 1px solid var(--border-color);
+    }
+
+    .data-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .data-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    /* ===== EXPEDITION SECTION (REVISI: TANPA GARIS VERTIKAL) ===== */
+    .expedition-timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 50px auto 0;
+    }
+
+    /* GARIS VERTIKAL DIHAPUS */
+    /* .expedition-timeline::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--accent);
+      transform: translateX(-50%);
+    } */
+
+    .timeline-item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    .timeline-item:nth-child(odd) {
+      flex-direction: row;
+    }
+
+    .timeline-item:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    .timeline-content {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 25px;
+      width: 45%;
+      border: 1px solid var(--border-color);
+      position: relative;
+    }
+
+    .timeline-year {
+      position: absolute;
+      top: -15px;
+      background: var(--accent);
+      color: #000;
+      font-weight: 700;
+      padding: 5px 15px;
+      border-radius: 20px;
+      z-index: 2;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-year {
+      right: -70px;
+    }
+
+    .timeline-item:nth-child(even) .timeline-year {
+      left: -70px;
+    }
+
+    .timeline-title {
+      color: var(--accent);
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    /* ===== MAP SECTION ===== */
+    .map-container {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+      margin-top: 40px;
+    }
+
+    .map-iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+      display: block;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: #0a1f46;
+      padding: 50px 0 30px;
+      margin-top: 80px;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+    }
+
+    .footer-column h3 {
+      color: var(--accent);
+      margin-bottom: 20px;
+      font-size: 20px;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: #c9d6ff;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    .copyright {
+      text-align: center;
+      padding-top: 30px;
+      margin-top: 30px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: #a0b3ff;
+      font-size: 14px;
+    }
+
+    /* ===== RESPONSIVE DESIGN ===== */
+    @media (max-width: 1024px) {
+      .hero-title {
+        font-size: 40px;
+      }
+      
+      .overview-content,
+      .geography-content,
+      .climate-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      
+      /* Timeline responsif tanpa garis vertikal */
+      .timeline-item:nth-child(odd) .timeline-year,
+      .timeline-item:nth-child(even) .timeline-year {
+        position: relative;
+        left: 0;
+        right: 0;
+        margin-bottom: 15px;
+        display: inline-block;
+      }
+      
+      .timeline-content {
+        width: 100%;
+      }
+      
+      /* Garis vertikal responsif dihapus */
+      /* .expedition-timeline::before {
+        left: 30px;
+      } */
+      
+      .timeline-item {
+        flex-direction: row !important;
+        justify-content: flex-start;
+        padding-left: 0; /* Diubah dari 60px menjadi 0 */
+      }
+    }
+
+    @media (max-width: 768px) {
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      nav {
+        position: fixed;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background: #0a1f46;
+        flex-direction: column;
+        padding: 20px;
+        gap: 15px;
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      }
+      
+      nav.active {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+      }
+      
+      .hero-title {
+        font-size: 32px;
+      }
+      
+      .hero-subtitle {
+        font-size: 18px;
+      }
+      
+      .section-title {
+        font-size: 30px;
+      }
+      
+      .hero-stats {
+        gap: 20px;
+      }
+      
+      .stat-value {
+        font-size: 28px;
+      }
+      
+      /* Timeline mobile tanpa garis vertikal */
+      .timeline-year {
+        position: relative !important;
+        left: 0 !important;
+        right: 0 !important;
+        top: 0;
+        margin-bottom: 15px;
+        display: inline-block;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 28px;
+      }
+      
+      .section-title {
+        font-size: 26px;
+      }
+      
+      .feature-card,
+      .species-card,
+      .geography-info,
+      .climate-data {
+        padding: 20px;
+      }
+      
+      .map-iframe {
+        height: 350px;
+      }
+      
+      .footer-content {
+        grid-template-columns: 1fr;
+      }
+      
+      /* Timeline mobile kecil */
+      .timeline-content {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="nav-container">
+      <div class="logo">
+        <img src="logogunung.png" alt="Logo Gunung" class="logo-img">
+        <div class="logo-text">PEGUNUNGAN JAYAWIJAYA</div>
+      </div>
+      
+      <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <i class="fas fa-bars"></i>
+      </button>
+      
+      <nav id="mainNav">
+        <a href="BERANDA.html" class="nav-link">Beranda</a>
+        <a href="Tentang Gunung.html" class="nav-link active">Tentang Gunung</a>
+        <a href="PETA3D.html" class="nav-link">Peta 3D</a>
+        <a href="Galeri.html" class="nav-link">PETA 2D</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">PEGUNUNGAN JAYAWIJAYA</h1>
+      <p class="hero-subtitle">Rangkaian pegunungan tertinggi di Indonesia yang membentang di Provinsi Papua, dengan puncak tertingginya yaitu Carstensz Pyramid (4.884 mdpl) yang merupakan satu-satunya gunung bersalju di wilayah tropis Indonesia.</p>
+      
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-value">4.884 m</span>
+          <span class="stat-label">Ketinggian Puncak</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">-5°C</span>
+          <span class="stat-label">Suhu Rata-rata</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">150 km</span>
+          <span class="stat-label">Panjang Pegunungan</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">1936</span>
+          <span class="stat-label">Pendakian Pertama</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OVERVIEW SECTION -->
+  <section class="section">
+    <h2 class="section-title">Gambaran Umum</h2>
+    
+    <div class="overview-content">
+      <div class="overview-text">
+        <p>Pegunungan Jayawijaya adalah rangkaian pegunungan yang terletak di provinsi Papua, Indonesia. Pegunungan ini merupakan bagian dari Pegunungan Maoke dan memiliki beberapa puncak tertinggi di Indonesia, termasuk Puncak Jaya (Carstensz Pyramid) yang merupakan puncak tertinggi di Indonesia dan Oseania.</p>
+        
+        <p>Keunikan utama Pegunungan Jayawijaya adalah keberadaan gletser tropis di puncaknya, yang merupakan satu-satunya di Asia Tenggara dan semakin menipis akibat perubahan iklim. Pegunungan ini terbentuk dari proses tektonik lempeng yang mendorong dasar laut ke atas hingga membentuk pegunungan kapur.</p>
+        
+        <p>Pegunungan Jayawijaya memiliki nilai geologis yang sangat penting karena batuan yang membentuknya berasal dari dasar laut yang terangkat. Daerah ini juga merupakan rumah bagi suku asli Papua seperti suku Dani, Lani, dan Yali yang telah menghuni lembah-lembahnya selama ribuan tahun.</p>
+      </div>
+      
+      <div class="overview-image">
+        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Pegunungan Jayawijaya">
+      </div>
+    </div>
+  </section>
+
+  <!-- CIRI KHAS SECTION -->
+  <section class="section" style="background: rgba(10, 36, 99, 0.2);">
+    <h2 class="section-title">Ciri Khas Pegunungan</h2>
+    
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-mountain"></i>
+        </div>
+        <h3 class="feature-title">Puncak Tertinggi</h3>
+        <p>Memiliki Puncak Jaya (Carstensz Pyramid) setinggi 4.884 mdpl yang merupakan puncak tertinggi di Indonesia dan Oseania.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-snowflake"></i>
+        </div>
+        <h3 class="feature-title">Salju Tropis</h3>
+        <p>Satu-satunya pegunungan di Indonesia yang memiliki salju abadi meskipun berada di wilayah khatulistiwa.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-gem"></i>
+        </div>
+        <h3 class="feature-title">Formasi Batuan Unik</h3>
+        <p>Terbentuk dari dasar laut yang terangkat dengan kandungan batuan kapur dan mineral yang kaya.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-water"></i>
+        </div>
+        <h3 class="feature-title">Sumber Air Besar</h3>
+        <p>Menjadi sumber air bagi beberapa sungai besar di Papua seperti Sungai Memberamo dan Digul.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- GEOGRAPHY SECTION -->
+  <section class="section">
+    <h2 class="section-title">Data Geografis</h2>
+    
+    <div class="geography-content">
+      <div class="geography-info">
+        <ul class="info-list">
+          <li>
+            <span class="info-label">Lokasi</span>
+            <span class="info-value">Provinsi Papua, Indonesia</span>
+          </li>
+          <li>
+            <span class="info-label">Koordinat</span>
+            <span class="info-value">4°04'44"S 137°09'30"E</span>
+          </li>
+          <li>
+            <span class="info-label">Ketinggian Puncak Tertinggi</span>
+            <span class="info-value">4.884 meter di atas permukaan laut</span>
+          </li>
+          <li>
+            <span class="info-label">Panjang Pegunungan</span>
+            <span class="info-value">± 150 km</span>
+          </li>
+          <li>
+            <span class="info-label">Lebar Pegunungan</span>
+            <span class="info-value">± 30-40 km</span>
+          </li>
+          <li>
+            <span class="info-label">Titik Tertinggi</span>
+            <span class="info-value">Puncak Jaya (Carstensz Pyramid)</span>
+          </li>
+          <li>
+            <span class="info-label">Puncak Lainnya</span>
+            <span class="info-value">Puncak Mandala, Puncak Trikora, Puncak Idenburg</span>
+          </li>
+          <li>
+            <span class="info-label">Jenis Batuan</span>
+            <span class="info-value">Batuan sedimen kapur dan batuan beku</span>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="overview-image">
+        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Peta Pegunungan Jayawijaya">
+      </div>
+    </div>
+  </section>
+
+  <!-- FLORA & FAUNA SECTION -->
+  <section class="section" style="background: rgba(10, 36, 99, 0.2);">
+    <h2 class="section-title">Flora dan Fauna</h2>
+    
+    <div class="flora-fauna-grid">
+      <div class="species-card">
+        <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Burung Cendrawasih" class="species-image">
+        <div class="species-content">
+          <h3 class="species-title">Burung Cendrawasih</h3>
+          <p class="species-desc">Burung endemik Papua yang dikenal dengan bulunya yang indah dan warna-warni. Terdapat beberapa spesies cendrawasih yang hidup di kawasan pegunungan ini.</p>
+        </div>
+      </div>
+      
+      <div class="species-card">
+        <img src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Pohon Araucaria" class="species-image">
+        <div class="species-content">
+          <h3 class="species-title">Pohon Araucaria</h3>
+          <p class="species-desc">Pohon konifer yang tumbuh di ketinggian 1.500-2.500 mdpl. Pohon ini memiliki bentuk yang unik dan menjadi ciri khas vegetasi pegunungan Papua.</p>
+        </div>
+      </div>
+      
+      <div class="species-card">
+        <img src="https://images.unsplash.com/photo-1550358864-518f202c02ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Kangguru Pohon" class="species-image">
+        <div class="species-content">
+          <h3 class="species-title">Kangguru Pohon</h3>
+          <p class="species-desc">Marsupial endemik Papua yang hidup di hutan pegunungan. Terdapat beberapa spesies kangguru pohon dengan ukuran dan warna yang bervariasi.</p>
+        </div>
+      </div>
+      
+      <div class="species-card">
+        <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Anggrek Papua" class="species-image">
+        <div class="species-content">
+          <h3 class="species-title">Anggrek Endemik</h3>
+          <p class="species-desc">Pegunungan Jayawijaya menjadi habitat bagi berbagai spesies anggrek endemik yang hanya ditemukan di ketinggian tertentu pegunungan ini.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLIMATE SECTION -->
+  <section class="section">
+    <h2 class="section-title">Iklim dan Cuaca</h2>
+    
+    <div class="climate-content">
+      <div class="climate-text">
+        <p>Pegunungan Jayawijaya memiliki iklim yang unik karena pengaruh ketinggian. Meskipun berada di daerah khatulistiwa, suhu di puncaknya bisa mencapai di bawah 0°C dengan salju abadi yang menutupi sebagian puncaknya.</p>
+        
+        <p>Curah hujan di daerah ini cukup tinggi, terutama di lereng bagian selatan yang menerima pengaruh angin muson. Suhu rata-rata di puncak berkisar antara -5°C hingga 5°C, sedangkan di lembah-lembah sekitar 15°C hingga 25°C.</p>
+        
+        <p>Gletser di Puncak Jaya merupakan salah satu dari sedikit gletser tropis yang tersisa di dunia. Namun, dalam beberapa dekade terakhir, gletser ini terus menyusut akibat pemanasan global. Diperkirakan gletser ini akan hilang sepenuhnya dalam beberapa puluh tahun ke depan jika tren pemanasan global terus berlanjut.</p>
+      </div>
+      
+      <div class="climate-data">
+        <div class="data-item">
+          <span>Suhu Puncak (rata-rata)</span>
+          <span>-5°C hingga 5°C</span>
+        </div>
+        <div class="data-item">
+          <span>Suhu Lembah (rata-rata)</span>
+          <span>15°C hingga 25°C</span>
+        </div>
+        <div class="data-item">
+          <span>Curah Hujan Tahunan</span>
+          <span>2.500 - 3.500 mm</span>
+        </div>
+        <div class="data-item">
+          <span>Kelembaban Relatif</span>
+          <span>80% - 95%</span>
+        </div>
+        <div class="data-item">
+          <span>Musim Pendakian Terbaik</span>
+          <span>April - Oktober</span>
+        </div>
+        <div class="data-item">
+          <span>Luasan Gletser (2023)</span>
+          <span>± 0,46 km²</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPEDITION HISTORY (REVISI: TANPA GARIS VERTIKAL) -->
+  <section class="section" style="background: rgba(10, 36, 99, 0.2);">
+    <h2 class="section-title">Sejarah Ekspedisi</h2>
+    
+    <div class="expedition-timeline">
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <div class="timeline-year">1623</div>
+          <h4 class="timeline-title">Penemuan oleh Eropa</h4>
+          <p>Penjelajah Belanda Jan Carstenszoon menjadi orang Eropa pertama yang melaporkan melihat gunung bersalju di khatulistiwa, meski tidak dipercaya banyak orang saat itu.</p>
+        </div>
+      </div>
+      
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <div class="timeline-year">1909</div>
+          <h4 class="timeline-title">Ekspedisi Belanda</h4>
+          <p>Ekspedisi Belanda dipimpin oleh Hendrik Albert Lorentz berhasil mencapai ketinggian 4.460 mdpl dan mengumpulkan data ilmiah pertama tentang pegunungan ini.</p>
+        </div>
+      </div>
+      
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <div class="timeline-year">1936</div>
+          <h4 class="timeline-title">Pendakian Pertama</h4>
+          <p>Ekspedisi yang dipimpin oleh Anton Colijn, Jean Jacques Dozy, dan Frits Wissel berhasil mencapai puncak Ngga Pulu (saat itu dianggap puncak tertinggi).</p>
+        </div>
+      </div>
+      
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <div class="timeline-year">1962</div>
+          <h4 class="timeline-title">Pendakian Puncak Jaya</h4>
+          <p>Ekspedisi pimpinan Heinrich Harrer berhasil mencapai puncak Carstensz Pyramid untuk pertama kalinya melalui rute normal yang sekarang.</p>
+        </div>
+      </div>
+      
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <div class="timeline-year">1973</div>
+          <h4 class="timeline-title">Pendakian Indonesia Pertama</h4>
+          <p>Ekspedisi TNI Angkatan Darat Indonesia berhasil mencapai puncak dan mengibarkan bendera Merah Putih untuk pertama kalinya.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAP SECTION -->
+  <section class="section">
+    <h2 class="section-title">Peta Google Maps</h2>
+    
+    <div class="map-container">
+      <iframe 
+        class="map-iframe" 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d509472.3054247798!2d137.11372739521398!3d-4.055818545253667!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x68300f6c9da2d253%3A0xf5df8c80e04b8fbc!2sPuncak%20Jaya!5e0!3m2!1sid!2sid!4v1715678901234!5m2!1sid!2sid" 
+        allowfullscreen="" 
+        loading="lazy" 
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3>Pegunungan Jayawijaya</h3>
+        <p>Informasi lengkap tentang Pegunungan Jayawijaya (Carstensz Pyramid) dan kawasan sekitarnya. Sumber daya alam, budaya, dan keunikan geologis salah satu pegunungan paling menarik di dunia.</p>
+      </div>
+      
+      <div class="footer-column">
+        <h3>Navigasi</h3>
+        <ul class="footer-links">
+          <li><a href="BERANDA.html">Beranda</a></li>
+          <li><a href="Tentang-Gunung.html">Tentang Gunung</a></li>
+          <li><a href="PETA3D.html">Peta 3D</a></li>
+          <li><a href="Galeri.html">PETA 2D</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h3>Informasi</h3>
+        <ul class="footer-links">
+          <li><a href="#">Data Geografis</a></li>
+          <li><a href="#">Flora dan Fauna</a></li>
+          <li><a href="#">Sejarah Ekspedisi</a></li>
+          <li><a href="#">Perubahan Iklim</a></li>
+          <li><a href="#">Budaya Lokal</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h3>Kontak</h3>
+        <ul class="footer-links">
+          <li><i class="fas fa-map-marker-alt"></i> Jayawijaya, Papua, Indonesia</li>
+          <li><i class="fas fa-envelope"></i> info@jayawijaya.id</li>
+          <li><i class="fas fa-phone"></i> +62 812 3456 7890</li>
+          <li><i class="fas fa-globe"></i> www.jayawijaya-info.go.id</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      &copy; 2023 Informasi Pegunungan Jayawijaya. Semua hak dilindungi. | Data diperbarui November 2023
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mainNav = document.getElementById('mainNav');
+    
+    mobileMenuBtn.addEventListener('click', () => {
+      mainNav.classList.toggle('active');
+      mobileMenuBtn.innerHTML = mainNav.classList.contains('active') 
+        ? '<i class="fas fa-times"></i>' 
+        : '<i class="fas fa-bars"></i>';
+    });
+    
+    // Close menu when clicking on a link
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mainNav.classList.remove('active');
+        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+      });
+    });
+    
+    // Simple animation on scroll
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+    
+    // Observe elements for animation
+    document.querySelectorAll('.feature-card, .species-card, .timeline-content').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      observer.observe(el);
+    });
+    
+    // Update year in footer
+    document.querySelector('.copyright').innerHTML = document.querySelector('.copyright').innerHTML.replace('2023', new Date().getFullYear());
+  </script>
+</body>
+</html>
